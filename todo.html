@@ -12,12 +12,12 @@
   <body>
     <div id="app">
       <h1>eProject - testing VueJS</h1>
-      <img id="img" v-bind:src="maths.imgSRC" />
+      <img id="img" v-bind:src="english.imgSRC" />
       <div class="right">
-        <h3>{{maths.subject}}</h3>
-        <p>{{maths.location}}</p>
-        <p>Price: {{maths.price}}</p>
-        <p>Spaces: {{maths.spaces}}</p>
+        <h3>{{english.subject}}</h3>
+        <p>{{english.location}}</p>
+        <p>Price: {{english.price}}</p>
+        <p>Spaces: {{english.spaces}}</p>
         <input class="Cartbt" type="button" id="addToCart" value="Add to Cart" v-on:click="toCart" />
       </div>
     </div>
@@ -27,9 +27,9 @@
         // root Vue ins
         el: "#app", // Linked with <div id="app"></div>
         data: {
-          maths: {
-            subject: "Mathematics",
-            imgSRC: "maths.png",
+          english: {
+            subject: "English",
+            SubImage: "english.png",
             location: "London",
             price: 80,
             spaces: 8,
@@ -38,10 +38,10 @@
         methods: {
           toCart: function () {
             //counts/check spaces left 
-            if (this.maths.spaces > 0) {
-              this.maths.spaces -= 1;
+            if (this.english.spaces > 0) {
+              this.english.spaces -= 1;
             } else {
-              this.maths.spaces = "No spaces";
+              this.english.spaces = "No spaces";
             }
           },
         },
