@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CW1 - group work </title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <h1>eProject - testing VueJS</h1>
+      <img id="img" v-bind:src="maths.imgSRC" />
+      <div class="right">
+        <h3>{{maths.subject}}</h3>
+        <p>{{maths.location}}</p>
+        <p>Price: {{maths.price}}</p>
+        <p>Spaces: {{maths.spaces}}</p>
+        <input class="Cartbt" type="button" id="addToCart" value="Add to Cart" v-on:click="toCart" />
+      </div>
+    </div>
+
+    <script>
+      let app = new Vue({
+        // root Vue ins
+        el: "#app", // Linked with <div id="app"></div>
+        data: {
+          maths: {
+            subject: "Mathematics",
+            imgSRC: "maths.png",
+            location: "London",
+            price: 80,
+            spaces: 8,
+          },
+        }, // it's 'data' options, JSON OBJ
+        methods: {
+          toCart: function () {
+            //counts/check spaces left 
+            if (this.maths.spaces > 0) {
+              this.maths.spaces -= 1;
+            } else {
+              this.maths.spaces = "No spaces";
+            }
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
