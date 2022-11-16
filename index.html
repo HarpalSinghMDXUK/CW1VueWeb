@@ -22,16 +22,17 @@
         
 
         <div v-if="viewItem" class="products" >
-            <div class="item">
-                <img v-bind:src="items.item.subjectImg">
-                <h3 v-text="items.item.subjectName"></h3>
+            <div class="item" v-for="(item, index) in items" :key="item.id">
+                <img v-bind:src="item.subjectImg">
+                
+                <h3 v-text="item.subjectName"></h3>
                 <p> 
                     Price:
-                    <span v-text="items.item.currency"></span><span v-html="items.item.price"></span>
+                    <span v-text="item.currency"></span><span v-html="item.price"></span>
                     <br>
-                    Spaces: <span v-html="items.item.spaces"></span> 
+                    Spaces: <span v-html="item.spaces"></span> 
                     <br>
-                    Location: <span v-text="items.item.location"></span>
+                    Location: <span v-text="item.location"></span>
                 </p>
                 <input type="button" value="Add to cart" v-on:click="AddToCart" v-if="checkSpacesAvailable">
                 <div v-else>
@@ -39,7 +40,7 @@
                     <span>No spaces left...</span>
                 </div>
                 
-                <!-- {{ checkSpacesAvailable }} -->
+                {{ checkSpacesAvailable }}
             </div>
         </div>
         <div v-else>
@@ -59,8 +60,8 @@
                 Title: "eStore - Shopping Cart System",
                 
             },
-            items: {
-                item:{
+            items: [
+                { 
                     id: 101,
                     subjectImg: "images/english.png",
                     subjectName: "English",
@@ -68,32 +69,28 @@
                     price: 100,
                     spaces: 8,
                     currency: "£"
-                }
-                // item:{
-                //     id: 1011,
-                //     subjectImg: "images/english.png",
-                //     subjectName: "English1",
-                //     location: "London",
-                //     price: 100,
-                //     spaces: 8,
-                //     currency: "£"
-                // },
-            },
+                },
+                { 
+                    id: 102,
+                    subjectImg: "images/english.png",
+                    subjectName: "Mathematocs",
+                    location: "London",
+                    price: 90,
+                    spaces: 4,
+                    currency: "£"
+                },
+            ],
             MyCart: [],
         },
         methods: {
             AddToCart: function () {
-                this.MyCart.push(this.items.item.id);
-                if (this.items.item.spaces > 0) {
-                this.items.item.spaces -= 1;
+                if (this.item.spaces > 0) {
+                this.item.spaces -= 1;
+                this.MyCart.push(this.item.id);
                 } else {
-                this.items.item.spaces = "No spaces";
+                this.item.spaces = "No spaces";
                 }
             },
-            // toCart: function () {
-            //     //counts/check spaces left 
-                
-            // },
             showCheckout(){
                 this.viewItem = this.viewItem ? false : true;
             }
@@ -103,8 +100,7 @@
                 return this.MyCart.length || "";
             },
             checkSpacesAvailable: function(){
-                return this.items.item.spaces > 0;
-                // return this.items.item.spaces > this.MyCartItemCount;
+                return this.items.spaces > this.items.spaces;
             }
         },
     })
