@@ -14,7 +14,7 @@ let lessons = [
         "subjectName": "Mathematocs",
         "location": "London",
         "price": 190,
-        "spaces": 110,
+        "spaces": 6,
         "currency": "£"
     },
 ]

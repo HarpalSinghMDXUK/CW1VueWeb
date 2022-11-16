@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <script src="https://kit.fontawesome.com/f0b3749e54.js" crossorigin="anonymous"></script>
+    <script src="vue.js"></script>
+    <!-- <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script> -->
+    <script src="lessons.js"></script>
+</head>
+<body>
+    <div id="MyApp" v-cloak>
+        <h3 v-text="AppSetting.Title"></h3>
+
+        
+        <button @click="showCheckout">
+            {{ totalItemsInTheCart }}
+            <span class="fas fa-cart-plus"></span> Checkout
+        </button>
+
+        
+
+        <div v-if="viewlesson" class="products" >
+            <main>
+                <div v-for="lesson in lessons" :key="lesson.id" v-bind:id="lesson.id" class="lesson" >
+                    <img v-bind:src="lesson.subjectImg">
+                    <h3 v-text="lesson.subjectName"></h3>
+                    <p> 
+                        Price:
+                        <span v-text="lesson.currency"></span><span v-html="lesson.price"></span>
+                        <br>
+                        Spaces: <span v-html="lesson.spaces"></span> 
+                        <br>
+                        Location: <span v-text="lesson.location"></span>
+                    </p>
+
+                    <button v-if="canAddToCart(lesson)" v-on:click="AddToCart(lesson)">Add to Cart</button>
+                    <button v-else disabled>Add to Cart</button>
+<!--     
+                    <span v-if="itemsLeft(lesson) === 0">All Out!</span>
+                    <span v-else-if="itemsLeft(lesson) >0">Only {{ itemsLeft(lesson) }} left!</span>
+                    <span v-else>Buy Now!</span> -->
+                </div>
+            </main>
+            
+        </div>
+        <div v-else>
+            <h3>Ready to Checkout</h3>
+        </div> 
+        <br>
+       
+    </div>
+     
+
+<script>
+    let MyStore = new Vue({
+        el:"#MyApp",
+        data:{
+            viewlesson: true,
+            AppSetting:{
+                Title: "eStore - Shopping Cart System",
+                
+            },
+            lessons: lessons,
+            MyCart: [],
+        },
+        methods: {
+            AddToCart: function (lesson) {
+                this.MyCart.push(lesson.id);
+            },
+            showCheckout(){
+                this.viewlesson = this.viewlesson ? false : true;
+            },
+            canAddToCart(lesson){
+                return lesson.spaces > this.cartCount(lesson.id);
+            },
+            cartCount(id){
+                let count = 0;
+                for (let i = 0; i < this.MyCart.length; i++){
+                    
+                    if(this.MyCart[i] === id){
+                        count++;
+                    }
+                    
+                    return count;
+                }
+            },
+            itemsLeft(lesson){
+                return lesson.spaces - this.cartCount(lesson.id);
+            }
+        },
+        computed: {
+            totalItemsInTheCart: function() {
+                return this.MyCart.length || "";
+            }
+        },
+    })
+</script>
+</body>
+</html>
