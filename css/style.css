@@ -1,0 +1,15 @@
+.searchList{
+list-style-type: none;
+margin:0;
+padding: 0;
+display: none;
+}
+h3.item-heading{
+    margin:0 !important;
+    padding: 0!important;
+    margin-left: 18px !important;
+}
+.card-body{
+    margin:0;
+    padding-top: 0;
+}

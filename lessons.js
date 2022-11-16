@@ -5,16 +5,16 @@ let lessons = [
         "subjectName": "English",
         "location": "London",
         "price": 100,
-        "spaces": 2,
+        "spaces": 12,
         "currency": "£"
     },
     { 
         "id": 102,
         "subjectImg": "images/english.png",
-        "subjectName": "Mathematocs",
+        "subjectName": "Mathematics",
         "location": "London",
         "price": 190,
-        "spaces": 3,
+        "spaces": 13,
         "currency": "£"
     },
 ]
