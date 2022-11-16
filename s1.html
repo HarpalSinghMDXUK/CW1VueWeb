@@ -20,7 +20,6 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
                 <a class="navbar-brand" href="#"><h3 v-text="AppSetting.Title"></h3></a>
-                
                 <div class="" id="" style="width: 100%;">
                     <div class="navbar-nav " >
                     <a class="nav-item nav-link active" href="index.html">Home <span class="sr-only">(current)</span></a>
@@ -62,10 +61,10 @@
         </div>
         
 
-        <div class="container">
-            <div class="row">
-                <div v-for="lesson in lessons" class="col-md-3" v-if="showLessons">
-                    <div class="card" style="">
+        <div class="container" v-if="showLessons">
+            <div class="row" >
+                <div v-for="lesson in lessons" class="col-md-3" >
+                    <div class="card" >
                         <img v-bind:src="lesson.subjectImg" class="card-img-top">
                         <h3 v-text="lesson.subjectName" class="item-heading ml-3"></h3>
                         
@@ -88,72 +87,30 @@
             </div>
         </div>
         <div v-else>
-            <h1>Checkout Page</h1>
-            <p>
-                <strong>Name:</strong>
-                <input type="text" v-model.trim="order.name">
-            </p>
-            <p>
-                <strong>Surname:</strong>
-                <input type="text" v-model.trim="order.surname">
-            </p>
-            <p>
-                <strong>Address:</strong><input v-model="order.address" />
-            </p>
-            <p>
-                <strong>City:</strong><input v-model="order.city" />
-            </p>
-            <p>
-                <strong>Zip/Postal Code:</strong> <input v-model.number="order.zip" type="number" />
-            </p>
-            <p>
-                <strong>State:</strong>
-                <select v-model="order.state">
-                    <option disabled>Select State</option>
-                    <option v-for="(state, key) in states"
-                    v-bind:value="state">{{key}}</option>
-                    </select>
-            </p>
-            <p>
-                <input type="checkbox" id="gift" value="true"
-                v-model="order.gift"
-                v-bind:true-value="order.sendGift"
-                v-bind:false-value="order.dontSendGift">
-                <label for="gift">Ship As Gift?</label>
-            </p>
-            <p>
-                <input type="radio" id="home" value="Home" v-model="order.method">
-                <label for="home">Home</label>
-                <input type="radio" id="business" value="Business" v-model="order.method">
-                <label for="business">Business</label>
-            </p>
-            <h2>Order Information</h2>
-            <p>
-                <strong>Name: {{order.name}}</strong>
-            </p>
-            <p>
-                <strong>Surname: {{order.surname}}</strong>
-            </p>
-            <p>
-                <strong>Address: {{order.address}}</strong>
-            </p>
-            <p>
-                <strong>City: {{order.city}}</strong>
-            </p>
-            <p>
-                <strong>state: {{order.state}}</strong>
-            </p>
-            <p>
-                <strong>Zip/Postal Code: {{order.zip}}</strong>
-            </p>
-            <p>
-                <strong>Gift? {{order.gift}}</strong>
-            </p>
-            <p>
-                <strong>Deliver to address: {{order.method}}</strong>
-            </p>
+            <div class="container">
+                <h1 class="text-center">Checkout Page</h1>
+                <p>
+                    <strong>Name:</strong>
+                    <input type="text" class="form-control" v-model.trim="order.name">
+                </p>
+                <p>
+                    <strong>Phone:</strong>
+                    <input type="number" class="form-control" v-model="order.phone">
+                </p>
+                <div style="background-color: #e7e7e7;padding:20px;">
+                    <h2 class="text-center">Order Information</h2>
+                    
+                    <p>
+                        <strong>Name: {{order.name}}</strong>
+                    </p>
+                    <p>
+                        <strong>Phone: {{order.phone}}</strong>
+                    </p>
 
-            <button v-on:click="submitCheckoutForm">Place Order</button>
+
+                    <button v-on:click="submitCheckoutForm" class="btn btn-default">Place Order</button>
+                </div>
+            </div>
         </div> 
        
 
@@ -184,22 +141,8 @@
             lessons: lessons,
             MyCart: [],
             order:{
-                name: "",
-                surname: "",
-                address: "",
-                city: "",
-                zip:"",
-                state: "",
-                gift: "Do not send as a gift",
-                sendGift: "Send as a gift",
-                donotSendGift: "Do not send as a gift",
-                method: "Home"
-            },
-            states: {
-                AL: "Alabam",
-                AR: "Arizona",
-                CA: "California",
-                NV: "Nevada"
+                name: "Hellow",
+                phone: 123
             }
         },
         methods: {
