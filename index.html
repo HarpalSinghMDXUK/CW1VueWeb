@@ -24,7 +24,7 @@
                     <div class="navbar-nav " >
                     <a class="nav-item nav-link active" href="index.html">Home <span class="sr-only">(current)</span></a>
                     <!-- Search functionality -->
-                    <input type="text" placeholder="Search Lessons" class="form-control" v-model="SearchLesson">
+                    <input type="text" placeholder="Search Lessons" class="form-control" v-model="SearchLesson" v-on:keyup="onEnter">
                     
                     <!-- checkout functionality -->
                     <button class="btn btn-default " @click="showCheckout">
@@ -36,13 +36,13 @@
                 </div>
             </div>
         </nav>
-
+        <h1>{{ msg }}</h1>
         
      
         <div class="clearfix"></div>
         <div class="container">
             
-            <ul class="searchList">
+            <ul class="searchList" v-if="seen" id="hide">
                 <li v-for="lesson in FilterLessons">
                     <img v-bind:src="lesson.subjectImg" alt="" class="float-left img-responsive" ><br>
                     <p class="searchItemDetails">
@@ -136,16 +136,21 @@
             showLessons: true,
             SearchLesson:null,
             AppSetting:{
-                Title: "After School Class App",
+                Title: "After School Classes App",
             },
             lessons: lessons,
             MyCart: [],
             order:{
-                name: "Hellow",
-                phone: 123
-            }
+                name: "",
+                phone: 0
+            },
+            msg: '',
+            seen: false,
         },
         methods: {
+            onEnter: function() {
+                this.seen = true;
+            },
             AddToCart: function (lesson) {
                 this.MyCart.push(lesson.id);
             },

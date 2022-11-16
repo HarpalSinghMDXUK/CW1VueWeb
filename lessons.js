@@ -1,7 +1,7 @@
 let lessons = [
     { 
         "id": 1101,
-        "subjectImg": "images/english.png",
+        "subjectImg": "images/book-english.png",
         "subjectName": "English",
         "location": "London",
         "price": 100,
@@ -10,11 +10,29 @@ let lessons = [
     },
     { 
         "id": 102,
-        "subjectImg": "images/english.png",
+        "subjectImg": "images/book-bio.png",
+        "subjectName": "Biology",
+        "location": "London",
+        "price": 4,
+        "spaces": 13,
+        "currency": "£"
+    },
+    { 
+        "id": 103,
+        "subjectImg": "images/book-math.png",
         "subjectName": "Mathematics",
         "location": "London",
-        "price": 190,
-        "spaces": 13,
+        "price": 7,
+        "spaces": 15,
+        "currency": "£"
+    },
+    { 
+        "id": 103,
+        "subjectImg": "images/book-computer-science.png",
+        "subjectName": "Computer Science",
+        "location": "London",
+        "price": 14,
+        "spaces": 17,
         "currency": "£"
     },
 ]
