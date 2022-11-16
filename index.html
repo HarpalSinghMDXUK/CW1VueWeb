@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <script src="https://kit.fontawesome.com/f0b3749e54.js" crossorigin="anonymous"></script>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="MyApp" v-cloak>
+        <h3 v-text="AppSetting.Title"></h3>
+
+        
+        <button @click="showCheckout">
+            {{ MyCartItemCount }}
+            <span class="fas fa-cart-plus"></span> Checkout
+        </button>
+
+        
+
+        <div v-if="viewItem" class="products" >
+            <div class="item">
+                <img v-bind:src="items.item.subjectImg">
+                <h3 v-text="items.item.subjectName"></h3>
+                <p> 
+                    Price:
+                    <span v-text="items.item.currency"></span><span v-html="items.item.price"></span>
+                    <br>
+                    Spaces: <span v-html="items.item.spaces"></span> 
+                    <br>
+                    Location: <span v-text="items.item.location"></span>
+                </p>
+                <input type="button" value="Add to cart" v-on:click="AddToCart" v-if="checkSpacesAvailable">
+                <div v-else>
+                    <button disabled >Empty</button>
+                    <span>No spaces left...</span>
+                </div>
+                
+                <!-- {{ checkSpacesAvailable }} -->
+            </div>
+        </div>
+        <div v-else>
+            <h3>Ready to Checkout</h3>
+        </div> 
+        <br>
+        
+    </div>
+     
+
+<script>
+    let MyStore = new Vue({
+        el:"#MyApp",
+        data:{
+            viewItem: true,
+            AppSetting:{
+                Title: "eStore - Shopping Cart System",
+                
+            },
+            items: {
+                item:{
+                    id: 101,
+                    subjectImg: "images/english.png",
+                    subjectName: "English",
+                    location: "London",
+                    price: 100,
+                    spaces: 8,
+                    currency: "£"
+                }
+                // item:{
+                //     id: 1011,
+                //     subjectImg: "images/english.png",
+                //     subjectName: "English1",
+                //     location: "London",
+                //     price: 100,
+                //     spaces: 8,
+                //     currency: "£"
+                // },
+            },
+            MyCart: [],
+        },
+        methods: {
+            AddToCart: function () {
+                this.MyCart.push(this.items.item.id);
+                if (this.items.item.spaces > 0) {
+                this.items.item.spaces -= 1;
+                } else {
+                this.items.item.spaces = "No spaces";
+                }
+            },
+            // toCart: function () {
+            //     //counts/check spaces left 
+                
+            // },
+            showCheckout(){
+                this.viewItem = this.viewItem ? false : true;
+            }
+        },
+        computed: {
+            MyCartItemCount: function() {
+                return this.MyCart.length || "";
+            },
+            checkSpacesAvailable: function(){
+                return this.items.item.spaces > 0;
+                // return this.items.item.spaces > this.MyCartItemCount;
+            }
+        },
+    })
+</script>
+</body>
+</html>
