@@ -5,7 +5,7 @@ let lessons = [
         "subjectName": "English",
         "location": "London",
         "price": 100,
-        "spaces": 10,
+        "spaces": 2,
         "currency": "£"
     },
     { 
@@ -14,7 +14,7 @@ let lessons = [
         "subjectName": "Mathematocs",
         "location": "London",
         "price": 190,
-        "spaces": 6,
+        "spaces": 3,
         "currency": "£"
     },
 ]
