@@ -88,6 +88,7 @@
                                     <p style="margin:0;">Spaces: <span>{{ itemsLeft(lesson) }}</span></p>
                                     <p style="margin:0;">Location: <span v-text="lesson.location"></span></p>
                                 </p>
+                                
                                 <input type="button" class="btn btn-default float-left" value="Add to Cart" v-on:click="AddToCart(lesson)" v-if="canAddToCart(lesson)">
                                 <div v-else>
                                     <button disabled class="btn btn-danger disabled float-left">Add to Cart</button>
@@ -106,7 +107,7 @@
             <div class="container">
                 <h1 class="text-center">Cart Items</h1>
                 <div class="row" >
-                    <div v-for="lesson in lessons" class="col-md-3">
+                    <div v-for="lesson in lessons" v-if="MyCart.lessons.includes(lesson.id)" class="col-md-3">
                         <div class="card" >
                             <img v-bind:src="lesson.subjectImg" class="card-img-top" style="width: 120px">
                             <h5 v-text="lesson.subjectName" class="ml-3"></h5>
@@ -114,7 +115,7 @@
                             <div class="card-body">
                                 <p class="card-text">
                                     <p style="margin:0;">Price:{{lesson.currency}}{{lesson.price}}</span></p>
-                                    <p style="margin:0;">Spaces: 1</span></p>
+                                    <p style="margin:0;">Spaces: {{ LessonsCount(lesson.id) }}</span></p>
                                     <p style="margin:0;">Location: <span v-text="lesson.location"></span></p>
                                 </p>
                             </div>
@@ -147,7 +148,7 @@
             </div>
         </div> 
        <!-- {{sortedProducts}} -->
-       <!-- <button @click="RemoveCartItem(lesson.id)">delete</button>:key="lesson.id" -->
+       
     </div>
      
 
@@ -161,7 +162,11 @@
                 Title: "After School Classes App",
             },
             lessons: lessons,
-            MyCart: [],
+            // MyCart: [],
+            MyCart: {
+                count: 0,
+                lessons: [],
+            },
             order:{
                 name: "",
                 phone: 0
@@ -199,10 +204,19 @@
                 }
             },
             AddToCart: function (lesson) {
+                lesson.spaces -= 1;
+                // this.MyCart.push(lesson.id);
+                this.MyCart.lessons.push(lesson.id);
                 
-                this.MyCart.push(lesson.id);
-                this.MyCart.push({id:lesson.id});
-                
+            },
+            LessonsCount(id) {
+            let count = 0;
+            for (let i = 0; i < this.MyCart.lessons.length; i++) {
+                if (this.MyCart.lessons[i] === id) {
+                count++;
+                }
+            }
+            return count;
             },
             showCheckout(){
                 this.showLessons = this.showLessons ? false : true;
@@ -215,7 +229,7 @@
             },
             cartCount(id) {
             let count = 0;
-                for(let i = 0; i < this.MyCart.length; i++) {
+                for(let i = 0; i < this.MyCart.lessons.length; i++) {
                     if (this.MyCart[i] === id) {
                     count++;
                     }
@@ -228,7 +242,7 @@
         },
         computed: {
             totalItemsInTheCart: function() {
-                return this.MyCart.length || "";
+                return this.MyCart.lessons.length || "";
             },
             FilterLessons(){
                 if (!this.SearchLesson) return this.lessons
