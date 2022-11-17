@@ -50,7 +50,7 @@
                         <strong>{{lesson.subjectName}}</strong>
                         Price: {{lesson.currency}}{{lesson.price}}</span>
                         Spaces: <span v-html="lesson.spaces"></span>
-                        Location: <span v-text="lesson.location"></span>
+                        Locations: <span v-text="lesson.location"></span>
                     </p>
                 </li>
             </ul> 
@@ -82,8 +82,7 @@
                                     <p style="margin:0;">Spaces: <span>{{ itemsLeft(lesson) }}</span></p>
                                     <p style="margin:0;">Location: <span v-text="lesson.location"></span></p>
                                 </p>
-                                <!-- Add to Cart with v-on -->
-                                
+                                <!-- Add to Cart using v-on -->
                                 <i class="fa-solid fa-cart-shopping float-left mr-2" style="margin-top:11px;"></i>
                                 <input type="button" class="btn btn-default float-left" value="Add to Cart" v-on:click="AddToCart(lesson)" v-if="canAddToCart(lesson)">
                                 <div v-else>
