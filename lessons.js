@@ -4,7 +4,7 @@ let lessons = [
         "subjectImg": "images/book-english.png",
         "subjectName": "English",
         "location": "London",
-        "price": 100,
+        "price": 111,
         "spaces": 12,
         "currency": "£"
     },
@@ -27,7 +27,7 @@ let lessons = [
         "currency": "£"
     },
     { 
-        "id": 103,
+        "id": 104,
         "subjectImg": "images/book-computer-science.png",
         "subjectName": "Computer Science",
         "location": "London",

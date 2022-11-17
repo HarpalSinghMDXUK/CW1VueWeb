@@ -9,13 +9,13 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="https://kit.fontawesome.com/f0b3749e54.js" crossorigin="anonymous"></script>
     <!-- <script src="vue.js"></script> -->
-    <script src="js/bootstrap.min.js"></script>
+    <!-- <script src="js/bootstrap.min.js"></script> -->
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
     <script src="lessons.js"></script>
     
 </head>
 <body>
-    <div id="MyApp" v-cloak>
+    <div id="MyAppx" v-cloak>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
@@ -24,7 +24,7 @@
                     <div class="navbar-nav " >
                     <a class="nav-item nav-link active" href="index.html">Home <span class="sr-only">(current)</span></a>
                     <!-- Search functionality -->
-                    <input type="text" placeholder="Search Lessons" class="form-control" v-model="SearchLesson" v-on:keyup="onEnter">
+                    <input type="text" placeholder="Search Lessons" class="form-control" v-model="SearchLesson" v-on:keyup="OnKeyUpSearchBar">
                     
                     <!-- checkout functionality -->
                     <button class="btn btn-default " @click="showCheckout">
@@ -36,7 +36,6 @@
                 </div>
             </div>
         </nav>
-        <h1>{{ msg }}</h1>
         
      
         <div class="clearfix"></div>
@@ -63,31 +62,60 @@
 
         <div class="container" v-if="showLessons">
             <div class="row" >
-                <div v-for="lesson in lessons" class="col-md-3" >
-                    <div class="card" >
-                        <img v-bind:src="lesson.subjectImg" class="card-img-top">
-                        <h3 v-text="lesson.subjectName" class="item-heading ml-3"></h3>
-                        
-                        <div class="card-body">
-                            <p class="card-text">
-                                <p style="margin:0;">Price:{{lesson.currency}}{{lesson.price}}</span></p>
-                                <p style="margin:0;">Spaces: <span>{{ itemsLeft(lesson) }}</span></p>
-                                <p style="margin:0;">Location: <span v-text="lesson.location"></span></p>
-                            </p>
-                            <input type="button" class="btn btn-default float-left" value="Add to Cart" v-on:click="AddToCart(lesson)" v-if="canAddToCart(lesson)">
-                            <div v-else>
-                                <button disabled class="btn btn-danger disabled float-left">Add to Cart</button>
-                            </div> 
-                            <span v-if="itemsLeft(lesson) === 0" class="float-left  ml-2 mt-1">All Out!</span>
-                            <span class="float-left ml-2 mt-1" v-else-if="itemsLeft(lesson) < 5 ">Only {{ itemsLeft(lesson) }} left!</span>
-                            <span v-else class="float-left  ml-2 mt-1">Buy Now!</span>
+                <div class="col-md-3 col-sm-12">
+                    <h4>Sorting</h4>
+                    <input type="radio" value="" /> By Subject Name<br>
+                    <input type="radio" value="" /> By Price<br>
+                    <input type="radio" value="" /> By Availability<br>
+                    <input type="radio" value="" /> By Location<br>
+                </div>
+                <div class="col-md-9 col-sm-12">
+                    <div class="row">
+                    <div v-for="(lesson, i) in lessons" class="col-md-6 col-sm-6" >
+                        <div class="card" >
+                            <img v-bind:src="lesson.subjectImg" class="card-img-top">
+                            <h3 v-text="lesson.subjectName" class="item-heading ml-3"></h3>
+                            
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <p style="margin:0;">Price:{{lesson.currency}}{{lesson.price}}</span></p>
+                                    <p style="margin:0;">Spaces: <span>{{ itemsLeft(lesson) }}</span></p>
+                                    <p style="margin:0;">Location: <span v-text="lesson.location"></span></p>
+                                </p>
+                                <input type="button" class="btn btn-default float-left" value="Add to Cart" v-on:click="AddToCart(lesson)" v-if="canAddToCart(lesson)">
+                                <div v-else>
+                                    <button disabled class="btn btn-danger disabled float-left">Add to Cart</button>
+                                </div> 
+                                <span v-if="itemsLeft(lesson) === 0" class="float-left  ml-2 mt-1">All Out!</span>
+                                <span class="float-left ml-2 mt-1" v-else-if="itemsLeft(lesson) < 5 ">Only {{ itemsLeft(lesson) }} left!</span>
+                                <span v-else class="float-left  ml-2 mt-1">Buy Now!</span>
+                            </div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
         </div>
         <div v-else>
             <div class="container">
+                <h1 class="text-center">Cart Items</h1>
+                <div class="row" >
+                    <div v-for="lesson in lessons" class="col-md-3">
+                        <div class="card" >
+                            <img v-bind:src="lesson.subjectImg" class="card-img-top" style="width: 120px">
+                            <h5 v-text="lesson.subjectName" class="ml-3"></h5>
+                            
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <p style="margin:0;">Price:{{lesson.currency}}{{lesson.price}}</span></p>
+                                    <p style="margin:0;">Spaces: 1</span></p>
+                                    <p style="margin:0;">Location: <span v-text="lesson.location"></span></p>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <h1 class="text-center">Checkout Page</h1>
                 <p>
                     <strong>Name:</strong>
@@ -112,26 +140,14 @@
                 </div>
             </div>
         </div> 
-       
-
-        <!-- <input type="text" placeholder="Search" v-model="SearchLesson">
-        <ul class="searchList">
-            <li v-for="lesson in FilterLessons">
-                <img v-bind:src="lesson.subjectImg" alt="" style="width: 90px;"><br>
-                <p><strong>{{lesson.subjectName}}</strong></p>
-
-                <p>Price:{{lesson.currency}}{{lesson.price}}</span></p>
-                <p>Spaces: <span v-html="lesson.spaces"></span></p>
-                <p>Location: <span v-text="lesson.location"></span></p>
-                
-            </li>
-        </ul> -->
+       <!-- {{sortedProducts}} -->
+       <!-- <button @click="RemoveCartItem(lesson.id)">delete</button>:key="lesson.id" -->
     </div>
      
 
 <script>
     let MyStore = new Vue({
-        el:"#MyApp",
+        el:"#MyAppx",
         data:{
             showLessons: true,
             SearchLesson:null,
@@ -144,24 +160,26 @@
                 name: "",
                 phone: 0
             },
-            msg: '',
             seen: false,
         },
         methods: {
-            onEnter: function() {
+            OnKeyUpSearchBar: function() {
                 this.seen = true;
             },
             AddToCart: function (lesson) {
+                
                 this.MyCart.push(lesson.id);
+                this.MyCart.push({id:lesson.id});
+                
             },
             showCheckout(){
                 this.showLessons = this.showLessons ? false : true;
             },
             canAddToCart(lesson) {
-            return lesson.spaces > this.cartCount(lesson.id);
+            return lesson.spaces > this.cartCount({id:lesson.id});
             },
             itemsLeft(lesson){
-                return lesson.spaces - this.cartCount(lesson.id);
+                return lesson.spaces - this.cartCount(lesson.id) ;
             },
             cartCount(id) {
             let count = 0;
@@ -181,13 +199,13 @@
                 return this.MyCart.length || "";
             },
             sortedProducts() {
-            // the comparison function that defines the order
+                // Sorting Lessons by Price
             function compare(a, b) {
             if (a.price > b.price) return 1;
             if (a.price < b.price) return -1;
             return 0;
             }
-            // sort the 'products' array and return it
+            // console.log(this.lessons.sort(compare));
             return this.lessons.sort(compare);
             },
             FilterLessons(){
@@ -197,6 +215,9 @@
                     return l.subjectName.toLowerCase().includes(SearchLesson)
                 })
             },
+            // RemoveCartItem(id){
+            //     this.lessons.splice(id, 1)
+            // }
         },
         
         mounted() {
@@ -205,7 +226,8 @@
         watch: {
             MyCart: {
             handler() {
-                console.log('Todos changed!');
+                console.log('Cart Action');
+                console.log(this.MyCart.length);
             },
             deep: true,
             },
