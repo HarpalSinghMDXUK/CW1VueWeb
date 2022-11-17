@@ -118,6 +118,7 @@
                                     <p style="margin:0;">Spaces: {{ LessonsCount(lesson.id) }}</span></p>
                                     <p style="margin:0;">Location: <span v-text="lesson.location"></span></p>
                                 </p>
+                                <input type="button" class="btn btn-default float-left" value="Remove From Cart" v-on:click="RemoveCartItem(lesson)">
                             </div>
                         </div>
                     </div>
@@ -180,7 +181,6 @@
             },
             sortedProducts(sorted) {
                 // Sorting Lessons by Price
-                
                 if(this.sorted === "b"){
                     function compare(a, b) {
                     
@@ -206,8 +206,7 @@
             AddToCart: function (lesson) {
                 lesson.spaces -= 1;
                 // this.MyCart.push(lesson.id);
-                this.MyCart.lessons.push(lesson.id);
-                
+                this.MyCart.lessons.push(lesson.id);   
             },
             LessonsCount(id) {
             let count = 0;
@@ -239,6 +238,17 @@
             submitCheckoutForm() {
                 alert('Order submitted!');
             },
+            RemoveCartItem(lesson){
+                for (let i = 0; i < this.MyCart.lessons.length; i++) {
+                    //Removing Specific ID
+                    if (this.MyCart.lessons[i] == lesson.id) {
+                    //deducting cart count and reverting spaces changes
+                    this.MyCart.lessons.splice(i, 1);
+                    lesson.spaces += 1;
+                    return
+                    }
+                }
+            }
         },
         computed: {
             totalItemsInTheCart: function() {
@@ -250,10 +260,8 @@
                 return this.lessons.filter(l => {
                     return l.subjectName.toLowerCase().includes(SearchLesson)
                 })
-            },
-            // RemoveCartItem(id){
-            //     this.lessons.splice(id, 1)
-            // }
+            }
+            
         },
         
         mounted() {
