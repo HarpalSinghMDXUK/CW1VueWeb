@@ -63,11 +63,17 @@
         <div class="container" v-if="showLessons">
             <div class="row" >
                 <div class="col-md-3 col-sm-12">
-                    <h4>Sorting</h4>
-                    <input type="radio" value="" /> By Subject Name<br>
-                    <input type="radio" value="" /> By Price<br>
-                    <input type="radio" value="" /> By Availability<br>
-                    <input type="radio" value="" /> By Location<br>
+                    <h4>Sorting:</h4>
+                    <div></div>
+
+                    <input type="radio" id="b" value="b" v-on:click="sortedProducts(sorted)" v-model="sorted" />
+                    <label for="b">By Price</label><br>
+
+                    <input type="radio" id="a" value="a" v-on:click="sortedProducts(sorted)" v-model="sorted" />
+                    <label for="a">By Availability</label><br>
+
+  
+                    
                 </div>
                 <div class="col-md-9 col-sm-12">
                     <div class="row">
@@ -161,10 +167,36 @@
                 phone: 0
             },
             seen: false,
+            sorted: ''
         },
         methods: {
             OnKeyUpSearchBar: function() {
                 this.seen = true;
+            },
+            sortedProducts(sorted) {
+                // Sorting Lessons by Price
+                
+                if(this.sorted === "b"){
+                    function compare(a, b) {
+                    
+                    if (a.spaces < b.spaces) return 1;
+                    if (a.spaces > b.spaces) return -1;
+                    return 0;
+                    }
+                    // console.log(this.lessons.sort(compare));
+                    console.log(this.sorted);
+                    return this.lessons.sort(compare);
+                }else{
+                    function compare(a, b) {
+                    
+                    if (a.price > b.price) return 1;
+                    if (a.price < b.price) return -1;
+                    return 0;
+                    }
+                    // console.log(this.lessons.sort(compare));
+                    console.log(this.sorted);
+                    return this.lessons.sort(compare);
+                }
             },
             AddToCart: function (lesson) {
                 
@@ -192,21 +224,11 @@
             },
             submitCheckoutForm() {
                 alert('Order submitted!');
-            }
+            },
         },
         computed: {
             totalItemsInTheCart: function() {
                 return this.MyCart.length || "";
-            },
-            sortedProducts() {
-                // Sorting Lessons by Price
-            function compare(a, b) {
-            if (a.price > b.price) return 1;
-            if (a.price < b.price) return -1;
-            return 0;
-            }
-            // console.log(this.lessons.sort(compare));
-            return this.lessons.sort(compare);
             },
             FilterLessons(){
                 if (!this.SearchLesson) return this.lessons
@@ -222,6 +244,8 @@
         
         mounted() {
             console.log('App mounted!');
+            console.log(this.sorted);
+            
         },
         watch: {
             MyCart: {
