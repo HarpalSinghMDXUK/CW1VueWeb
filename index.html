@@ -5,21 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>After School - Class Booking</title>
+
+
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <!-- Using Font Awesome -->
     <script src="https://kit.fontawesome.com/f0b3749e54.js" crossorigin="anonymous"></script>
-    <!-- <script src="vue.js"></script> -->
-    <!-- <script src="js/bootstrap.min.js"></script> -->
+    <!-- Using Vue 2 -->
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
+    <!-- Import Lesson.js -->
     <script src="lessons.js"></script>
     
 </head>
 <body>
-    <div id="MyAppx" v-cloak>
-
+    <div id="MyApp" v-cloak>
+<!-------- Header -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href="#"><h3 v-text="AppSetting.Title"></h3></a>
+                <a class="navbar-brand" href="index.html"><h3 v-text="AppSetting.Title"></h3></a>
                 <div class="" id="" style="width: 100%;">
                     <div class="navbar-nav " >
                     <a class="nav-item nav-link active" href="index.html">Home <span class="sr-only">(current)</span></a>
@@ -36,12 +39,10 @@
                 </div>
             </div>
         </nav>
-        
-     
         <div class="clearfix"></div>
         <div class="container">
-            
-            <ul class="searchList" v-if="seen" id="hide">
+<!-- -------------------- Search Result on input Seach -->
+            <ul class="searchList" v-if="SearchItemsView" id="hide">
                 <li v-for="lesson in FilterLessons">
                     <img v-bind:src="lesson.subjectImg" alt="" class="float-left img-responsive" ><br>
                     <p class="searchItemDetails">
@@ -50,11 +51,6 @@
                         Spaces: <span v-html="lesson.spaces"></span>
                         Location: <span v-text="lesson.location"></span>
                     </p>
-    
-                    <p></p>
-                    <p></p>
-                    <p></p>
-                    
                 </li>
             </ul> 
         </div>
@@ -63,18 +59,15 @@
         <div class="container" v-if="showLessons">
             <div class="row" >
                 <div class="col-md-3 col-sm-12">
+<!-- ------------------------ Sorting Functionality By Price or Spaces Availability -->
                     <h4>Sorting:</h4>
-                    <div></div>
-
                     <input type="radio" id="b" value="b" v-on:click="sortedProducts(sorted)" v-model="sorted" />
                     <label for="b">By Price</label><br>
 
                     <input type="radio" id="a" value="a" v-on:click="sortedProducts(sorted)" v-model="sorted" />
                     <label for="a">By Availability</label><br>
-
-  
-                    
                 </div>
+<!-- -------------------------------- Fetching Items / Lessons with v-for -->
                 <div class="col-md-9 col-sm-12">
                     <div class="row">
                     <div v-for="(lesson, i) in lessons" class="col-md-6 col-sm-6" >
@@ -88,11 +81,12 @@
                                     <p style="margin:0;">Spaces: <span>{{ itemsLeft(lesson) }}</span></p>
                                     <p style="margin:0;">Location: <span v-text="lesson.location"></span></p>
                                 </p>
-                                
+                                <!-- Add to Cart with v-on -->
                                 <input type="button" class="btn btn-default float-left" value="Add to Cart" v-on:click="AddToCart(lesson)" v-if="canAddToCart(lesson)">
                                 <div v-else>
                                     <button disabled class="btn btn-danger disabled float-left">Add to Cart</button>
                                 </div> 
+                                <!-- Count Spaces Left and Buttons Functionality -->
                                 <span v-if="itemsLeft(lesson) === 0" class="float-left  ml-2 mt-1">All Out!</span>
                                 <span class="float-left ml-2 mt-1" v-else-if="itemsLeft(lesson) < 5 ">Only {{ itemsLeft(lesson) }} left!</span>
                                 <span v-else class="float-left  ml-2 mt-1">Buy Now!</span>
@@ -103,6 +97,7 @@
                 </div>
             </div>
         </div>
+<!-- ---------------------------- Shopping Cart -->
         <div v-else>
             <div class="container">
                 <h1 class="text-center">Cart Items</h1>
@@ -115,7 +110,7 @@
                             <div class="card-body">
                                 <p class="card-text">
                                     <p style="margin:0;">Price:{{lesson.currency}}{{lesson.price}}</span></p>
-                                    <p style="margin:0;">Spaces: {{ LessonsCount(lesson.id) }}</span></p>
+                                    <p style="margin:0;">Spaces: {{ CartedItemSpacesCount(lesson.id) }}</span></p>
                                     <p style="margin:0;">Location: <span v-text="lesson.location"></span></p>
                                 </p>
                                 <input type="button" class="btn btn-default float-left" value="Remove From Cart" v-on:click="RemoveCartItem(lesson)">
@@ -123,24 +118,27 @@
                         </div>
                     </div>
                 </div>
+
+
                 
+<!-- ---------------------------- Checkout Page -->
                 <h1 class="text-center">Checkout Page</h1>
                 <p>
                     <strong>Name:</strong>
-                    <input type="text" class="form-control" v-model.trim="order.name">
+                    <input type="text" class="form-control" v-model.trim="checkoutOrder.name">
                 </p>
                 <p>
                     <strong>Phone:</strong>
-                    <input type="number" class="form-control" v-model="order.phone">
+                    <input type="number" class="form-control" v-model="checkoutOrder.phone">
                 </p>
                 <div style="background-color: #e7e7e7;padding:20px;">
                     <h2 class="text-center">Order Information</h2>
                     
                     <p>
-                        <strong>Name: {{order.name}}</strong>
+                        <strong>Name: {{checkoutOrder.name}}</strong>
                     </p>
                     <p>
-                        <strong>Phone: {{order.phone}}</strong>
+                        <strong>Phone: {{checkoutOrder.phone}}</strong>
                     </p>
 
 
@@ -152,35 +150,46 @@
        
     </div>
      
-
+    <footer>
+        <div class="container text-center">
+            <hr>
+            Project create on Web VueJS 2 - After School Classes Booking 
+        </div>
+    </footer>
 <script>
     let MyStore = new Vue({
-        el:"#MyAppx",
+        el:"#MyApp",
         data:{
+            // Show Lessons or Checkout Visibility
             showLessons: true,
             SearchLesson:null,
             AppSetting:{
                 Title: "After School Classes App",
             },
+            // Getting Lessons from Lessons.js File
             lessons: lessons,
-            // MyCart: [],
+            // Added Cart
             MyCart: {
                 count: 0,
+                // Created Lessons Array for cart items being added into. 
                 lessons: [],
             },
-            order:{
+            checkoutOrder:{
                 name: "",
                 phone: 0
             },
-            seen: false,
+            // For Search Input `
+            SearchItemsView: false,
             sorted: ''
         },
         methods: {
+            // Search Keyup Function
             OnKeyUpSearchBar: function() {
-                this.seen = true;
+                // Searching results visible true
+                this.SearchItemsView = true;
             },
             sortedProducts(sorted) {
-                // Sorting Lessons by Price
+                // Sorting Lessons by Spaces Left
                 if(this.sorted === "b"){
                     function compare(a, b) {
                     
@@ -188,27 +197,26 @@
                     if (a.spaces > b.spaces) return -1;
                     return 0;
                     }
-                    // console.log(this.lessons.sort(compare));
+                    
                     console.log(this.sorted);
                     return this.lessons.sort(compare);
                 }else{
+                // Sorting Lessons by Price
                     function compare(a, b) {
-                    
                     if (a.price > b.price) return 1;
                     if (a.price < b.price) return -1;
                     return 0;
                     }
-                    // console.log(this.lessons.sort(compare));
+                    
                     console.log(this.sorted);
                     return this.lessons.sort(compare);
                 }
             },
             AddToCart: function (lesson) {
                 lesson.spaces -= 1;
-                // this.MyCart.push(lesson.id);
                 this.MyCart.lessons.push(lesson.id);   
             },
-            LessonsCount(id) {
+            CartedItemSpacesCount(id) {
             let count = 0;
             for (let i = 0; i < this.MyCart.lessons.length; i++) {
                 if (this.MyCart.lessons[i] === id) {
@@ -217,15 +225,19 @@
             }
             return count;
             },
+            // Checkout View Visibile True or False
             showCheckout(){
                 this.showLessons = this.showLessons ? false : true;
             },
+            // Check if Lesson Spaces Available
             canAddToCart(lesson) {
             return lesson.spaces > this.cartCount({id:lesson.id});
             },
+            // How many spaces left of lesson count
             itemsLeft(lesson){
                 return lesson.spaces - this.cartCount(lesson.id) ;
             },
+            // Cart Items Counting and increment into count
             cartCount(id) {
             let count = 0;
                 for(let i = 0; i < this.MyCart.lessons.length; i++) {
@@ -235,9 +247,11 @@
                 }
                 return count;
             },
+            // Checkout Complete Alert
             submitCheckoutForm() {
                 alert('Order submitted!');
             },
+            // Removing Items From Cart 
             RemoveCartItem(lesson){
                 for (let i = 0; i < this.MyCart.lessons.length; i++) {
                     //Removing Specific ID
@@ -251,9 +265,11 @@
             }
         },
         computed: {
+            // Counting Items Count next to Checkout 
             totalItemsInTheCart: function() {
                 return this.MyCart.lessons.length || "";
             },
+            // Performing search filters in order to perform search
             FilterLessons(){
                 if (!this.SearchLesson) return this.lessons
                 let SearchLesson = this.SearchLesson.toLowerCase()
@@ -262,22 +278,7 @@
                 })
             }
             
-        },
-        
-        mounted() {
-            console.log('App mounted!');
-            console.log(this.sorted);
-            
-        },
-        watch: {
-            MyCart: {
-            handler() {
-                console.log('Cart Action');
-                console.log(this.MyCart.length);
-            },
-            deep: true,
-            },
-        },
+        }
     })
 </script>
 </body>
